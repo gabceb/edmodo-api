@@ -1,32 +1,41 @@
 # -*- encoding: utf-8 -*-
 
 require File.join(File.dirname(__FILE__), "/spec_helper")
+EdmodoApiError = Class.new(StandardError)
 
 describe Edmodo::API::Client do
+  
+  before do
+    @api_key = "1234567890abcdefghijklmn"
+    @invalid_api_key = "invalid_key"
+  end
+
   describe 'Initialization' do
+
     it 'should accept an api key in the constructor' do
-      Edmodo::API::Client.new('1234567890abcdefghijkl').api_key.should == '1234567890abcdefghijkl'
+      Edmodo::API::Client.new(@api_key).api_key.should == @api_key
     end
 
     it "should be initialized with sandbox mode by default" do
-      Edmodo::API::Client.new('1234567890abcdefghijkl' ).mode.should == :sandbox
+      Edmodo::API::Client.new(@api_key).mode.should == :sandbox
     end
 
     it "should be initialized with production mode if passed to the initialize method" do
-      Edmodo::API::Client.new('1234567890abcdefghijkl', mode: :production).mode.should == :production
+      Edmodo::API::Client.new(@api_key, mode: :production).mode.should == :production
     end
 
     it "should be initialized with sandbox mode if passed to the initialize method" do
-      Edmodo::API::Client.new('1234567890abcdefghijkl', mode: :sandbox).mode.should == :sandbox
+      Edmodo::API::Client.new(@api_key, mode: :sandbox).mode.should == :sandbox
     end
 
     it "should throw an exception if an unkown mode is passed to the initialize method" do
-      expect { Edmodo::API::Client.new('1234567890abcdefghijkl', mode: :mymode) }.to raise_error
+      expect { Edmodo::API::Client.new(@api_key, mode: :mymode) }.to raise_error(EdmodoApiError)
     end
 
     it "should throw an exception if no api key is passed to the initialize method" do
-      expect { Edmodo::API::Client.new }.to raise_error
+      expect { Edmodo::API::Client.new(nil) }.to raise_error(EdmodoApiError)
     end
+
   end
 
   describe 'Config' do
@@ -43,10 +52,17 @@ describe Edmodo::API::Client do
     end
   end
 
+  describe 'Invalid Requests' do
+    it 'should throw an error when a request doesnt return a 200 status code' do
+      client = Edmodo::API::Client.new(@invalid_api_key)
+      
+      expect { client.launch_requests("5c18c7") }.to raise_error(EdmodoApiError)
+    end
+  end
+
   describe 'GET Requests' do
     before do
-      api_key = "1234567890abcdefghijklmn"
-      @client = Edmodo::API::Client.new(api_key)
+      @client = Edmodo::API::Client.new(@api_key)
     end
 
     it 'should get the correct hash back from the launchRequest request' do

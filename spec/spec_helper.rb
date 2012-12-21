@@ -5,8 +5,14 @@ require 'edmodo-api'
 require 'fakeweb'
 
 @api_key = "1234567890abcdefghijklmn"
+@invalid_api_key = "invalid_key"
 
 FakeWeb.allow_net_connect = false
+
+# Unauthorized request
+uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/launchRequests.json?api_key=#{@invalid_api_key}&launch_key=5c18c7"
+
+FakeWeb.register_uri(:get, uri, :body => '{"error":{"code":3000,"message":"Unauthorized API request"}}', :status => ["401", "Authorization Required"])
 
 # launchRequest request uri
 uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/launchRequests.json?api_key=#{@api_key}&launch_key=5c18c7"

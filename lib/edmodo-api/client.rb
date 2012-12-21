@@ -3,6 +3,8 @@
 require 'httparty'
 require 'json'
 
+EdmodoApiError = Class.new(StandardError)
+
 module Edmodo
   module API
     class Client
@@ -12,9 +14,7 @@ module Edmodo
 
       attr_reader :api_key
       attr_reader :mode
-
-      EdmodoApiError = Class.new(StandardError)
-
+    
       # Initializes a new instance of the Edmodo API client
       # Options:
       #
@@ -26,7 +26,7 @@ module Edmodo
 
         @format = options[:format]
         @mode = options[:mode]
-        @api_key = (api_key || ENV['EDMODO_API_KEY']).strip
+        @api_key = (api_key || ENV['EDMODO_API_KEY'] || "").strip
 
         raise_init_errors
 
@@ -41,7 +41,7 @@ module Edmodo
       #
       # => launch_key: launch_key that was passed to the application's server.
       def launch_requests launch_key
-        get resource_uri("launchRequests", @format), {:launch_key => launch_key}
+        request :get, resource_uri("launchRequests", @format), {:launch_key => launch_key}
       end
 
       # Returns user data for a given user token or array of user tokens.
@@ -51,7 +51,7 @@ module Edmodo
       def users user_tokens
         user_tokens = Array(user_tokens)
 
-        get resource_uri("users", @format), {:user_tokens => user_tokens.to_json}
+        request :get, resource_uri("users", @format), {:user_tokens => user_tokens.to_json}
       end
 
       # Returns group data for a given array of group ids.
@@ -61,7 +61,7 @@ module Edmodo
       def groups group_ids
         group_ids = Arary(group_ids)
 
-        get resource_uri("groups", @format), {:group_ids => group_ids.to_json}
+        request :get, resource_uri("groups", @format), {:group_ids => group_ids.to_json}
       end
 
       # Returns the data for groups a user belongs to given a user token.
@@ -177,7 +177,7 @@ module Edmodo
 
         user_tokens = Array(user_tokens)
 
-        get resource_uri("profiles", "json"), {:user_tokens => user_tokens.to_json}
+        request :get, resource_uri("profiles", "json"), {:user_tokens => user_tokens.to_json}
       end
 
       # -- POST Requests --
@@ -211,7 +211,7 @@ module Edmodo
       # => description: limit 140 characters
       # => image_url: url to badge image, should be 114x114 pixels. Accepted image types: jpg, gif, png
       def register_badge badge_title, description, image_url 
-        post(resource_uri("registerBadge"), {:badge_title => badge_title, :description => description, :image_url => image_url})
+        request(:post, resource_uri("registerBadge"), {:badge_title => badge_title, :description => description, :image_url => image_url})
       end
 
       # Returns an array of user data for all teachers for a student specified by user token.
@@ -303,7 +303,7 @@ module Edmodo
       end
 
       def raise_init_errors
-        raise EdmodoApiError.new("Edmodo API Error: Api key was not set") unless @api_key
+        raise EdmodoApiError.new("Edmodo API Error: Api key was not set") if @api_key.empty?
 
         raise EdmodoApiError.new("EdmodoAPI Error: Mode not available on Edmodo API") unless Edmodo::API::Config.endpoints.keys.include? @mode
       end
