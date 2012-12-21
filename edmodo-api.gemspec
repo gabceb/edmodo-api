@@ -20,8 +20,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency('httparty')
   gem.add_dependency('json')
 
-  gem.add_development_dependency 'rspec', '2.12.0'
-  gem.add_development_dependency 'fakeweb', '1.3.0'
-  gem.add_development_dependency 'awesome_print', '1.1.0'
-  gem.add_development_dependency 'rake', '10.0.2'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'fakeweb'
+  gem.add_development_dependency 'awesome_print'
+  gem.add_development_dependency 'rake'
 end

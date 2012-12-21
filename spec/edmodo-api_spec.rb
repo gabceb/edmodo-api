@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 require File.join(File.dirname(__FILE__), "/spec_helper")
-EdmodoApiError = Class.new(StandardError)
 
 describe Edmodo::API::Client do
   
