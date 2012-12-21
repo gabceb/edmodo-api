@@ -86,6 +86,14 @@ describe Edmodo::API::Client do
       response.should == [{"user_type"=>"TEACHER", "user_token"=>"b020c42d1", "first_name"=>"Bob", "last_name"=>"Smith", "avatar_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar.png", "thumb_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar_t.png"}, {"user_type"=>"STUDENT", "user_token"=>"jd3i1c0pl", "first_name"=>"Jane", "last_name"=>"Student", "avatar_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar.png", "thumb_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar_t.png"}]
     end
 
+    it 'should get the correct hash back from the groups request' do
+      
+      groups_id = [379557,379562]
+      response = @client.groups(groups_id)
+
+      response.should == [{"group_id"=>379557, "title"=>"Algebra", "member_count"=>20, "owners"=>["b020c42d1", "693d5c765"], "start_level"=>"9th", "end_level"=>"9th"}, {"group_id"=>379562, "title"=>"Geometry", "member_count"=>28, "owners"=>["b020c42d1"], "start_level"=>"3rd", "end_level"=>"3rd"}]
+    end
+
     it 'should throw an exception if the method is not yet implemented' do
       user_id = "b020c42d1"
 

@@ -80,6 +80,32 @@ FakeWeb.register_uri(:get, uri,
 								   }
 								]')
 
+uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/groups.json?api_key=#{@api_key}&group_ids=%5B379557%2C379562%5D"
+
+FakeWeb.register_uri(:get, uri,
+					 :body => '[{
+							      "group_id":379557,
+							      "title":"Algebra",
+							      "member_count":20,
+							      "owners":[
+							         "b020c42d1",
+							         "693d5c765"
+							      ],
+							      "start_level":"9th",
+							      "end_level":"9th"
+							   },
+							   {
+							      "group_id":379562,
+							      "title":"Geometry",
+							      "member_count":28,
+							      "owners":[
+							         "b020c42d1"
+							      ],
+							      "start_level":"3rd",
+							      "end_level":"3rd"
+							   }
+							]')
+
 # RegisterBadge request uri
 uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/registerBadge?api_key=#{@api_key}&badge_title=Good%20Job&description=You%20did%20a%20good%20job&image_url=http%3A%2F%2Fwww.edmodo.com%2Fbadge_image.png"
 

@@ -59,7 +59,7 @@ module Edmodo
       #
       # => group_ids: array of group ids
       def groups group_ids
-        group_ids = Arary(group_ids)
+        group_ids = Array(group_ids)
 
         request :get, resource_uri("groups", @format), {:group_ids => group_ids.to_json}
       end
