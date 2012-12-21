@@ -86,20 +86,10 @@ describe Edmodo::API::Client do
       response.should == [{"user_type"=>"TEACHER", "user_token"=>"b020c42d1", "first_name"=>"Bob", "last_name"=>"Smith", "avatar_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar.png", "thumb_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar_t.png"}, {"user_type"=>"STUDENT", "user_token"=>"jd3i1c0pl", "first_name"=>"Jane", "last_name"=>"Student", "avatar_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar.png", "thumb_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar_t.png"}]
     end
 
-    it 'should get the correct hash back from the users request' do
-      pending "Need to finish implementing this method"
-    end
+    it 'should throw an exception if the method is not yet implemented' do
+      user_id = "b020c42d1"
 
-    it 'should get the correct hash back from the groups request' do
-      pending "Need to finish implementing this method"
-    end
-
-    it 'should get the correct hash back from the groups_for_user request' do
-      pending "Need to finish implementing this method"
-    end
-
-    it 'should get the correct hash back from the members request' do
-      pending "Need to finish implementing this method"
+      expect { @client.children user_id }.to raise_error(EdmodoApiError)
     end
 
   end
