@@ -1,31 +1,29 @@
 # -*- encoding: utf-8 -*-
-
-require 'open-uri'
+require 'json'
+require 'cgi'
 
 module Edmodo
   module API
-    class Request
+    module Request
 
-      def post uri
-        uri = URI(uri)
-        req = Net::HTTP::Post.new(uri.path)
-        
-        res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-          http.request(req)
-        end
-        
-        res.body.to_s
+      def post uri, query
+        raw_response = self.class.post(uri, query: query )
+
+        check_response_for_errors(raw_response) && JSON.parse(raw_response.body)
       end
 
-      def get uri
-        uri = URI(uri)
-        req = Net::HTTP::Get.new(uri.path)
-        
-        res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-          http.request(req)
+      def get uri, query
+        raw_response = self.class.get(uri, query: query)
+
+        check_response_for_errors(raw_response) && JSON.parse(raw_response.body)
+      end
+
+      def check_response_for_errors response
+        unless (success = response.code == 200)
+          raise EdmodoApiError "EdmodoAPI Error: Request Error. #{response.body} (code: #{response.code})"
         end
-        
-        res.body.to_s
+
+        return success
       end
 
     end

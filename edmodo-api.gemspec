@@ -14,6 +14,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Edmodo::API::VERSION
 
+  gem.add_dependency('httparty')
+  gem.add_dependency('json')
+
   gem.add_development_dependency 'rspec', '2.12.0'
   gem.add_development_dependency 'fakeweb', '1.3.0'
   gem.add_development_dependency 'awesome_print', '1.1.0'
