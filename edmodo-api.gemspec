@@ -3,8 +3,8 @@ require File.expand_path('../lib/edmodo-api/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Gabriel Cebrian"]
-  gem.email         = ["gabceb@edcanvas.com"]
-  gem.description   = %q{To use the Edmodo API for apps on the Edmodo ecosystem}
+  gem.email         = ["gabceb@gmail.com"]
+  gem.description   = %q{To be used when creating apps for Edmodo}
   gem.summary       = %q{Ruby wrapper for the Edmodo API}
   gem.homepage      = "https://github.com/gabceb/edmodo-api"
   gem.license       = "MIT"
