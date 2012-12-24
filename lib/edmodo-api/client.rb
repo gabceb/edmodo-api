@@ -69,7 +69,7 @@ module Edmodo
       #
       # => user_token: User token
       def groups_for_user user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("groupsForUser", @format), {:user_token => user_token}
       end
 
       # Returns an array of user data for members of a group, specified by group id.
@@ -77,7 +77,7 @@ module Edmodo
       #
       # => group_id: integer Group ID
       def members group_id
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("members", @format), {:group_id => group_id}
       end
 
       # Returns an array of user data for all students that belong to at least one group with the student specified by user token.
@@ -85,7 +85,7 @@ module Edmodo
       #
       # => user_token: User token of the student
       def classmates user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("classmates", @format), {:user_token => user_token}
       end
 
       # Returns an array of user data for all teachers for a student specified by user token.
@@ -93,7 +93,7 @@ module Edmodo
       #
       # => user_token: User token of the student
       def teachers user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("teachers", @format), {:user_token => user_token}
       end
 
       # Returns an array of user data for all teachers that are connected to the teacher specified by user token.
@@ -101,7 +101,7 @@ module Edmodo
       #
       # => user_token: User token of the teacher
       def teachermates user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("teachermates", @format), {:user_token => user_token}
       end
 
       # Returns an array of assignments coming due (in the next 60 days) for the user specified by the token.
@@ -109,7 +109,7 @@ module Edmodo
       #
       # => user_token: User token of the user
       def teacher_connections user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("teacherConnections", @format), {:user_token => user_token}
       end
 
       # This call can be used in conjunction with turnInAssignment to allow a user to submit content from the app for a particular assignment in Edmodo.
@@ -117,7 +117,7 @@ module Edmodo
       #
       # => user_token: User token of the user
       def assignments_coming_due user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("assignmentsComingDue", @format), {:user_token => user_token}
       end
       
       # Returns an array of grades set by the app for the given user token.
@@ -125,7 +125,7 @@ module Edmodo
       #
       # => user_token: User token of the user to get grades for
       def grades_set_by_app_for_user user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("gradesSetByAppForUser", @format), {:user_token => user_token}
       end
 
       # Returns an array of grades set by the app for the given group.
@@ -133,7 +133,7 @@ module Edmodo
       #
       # => group_id: The group to get grades for.
       def grades_set_by_app_for_group group_id
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("gradesSetByAppForGroup", @format), {:group_id => group_id}
       end
 
       # Returns an array of badges awarded by the app to the given user token.
@@ -141,7 +141,7 @@ module Edmodo
       #
       # => user_token: The user_token to get badges awarded for.
       def badges_awarded user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("badgesAwarded", @format), {:user_token => user_token}
       end
 
       # Returns an array of events set on behalf of the specified user by the app.
@@ -149,7 +149,7 @@ module Edmodo
       #
       # => user_token: The user token for the user from which events were set for.
       def events_by_app user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("eventsByApp", @format), {:user_token => user_token}
       end
 
       # Returns an array of parent user data, given a specified student user token.
@@ -157,7 +157,7 @@ module Edmodo
       #
       # => user_token: User token of the student
       def parents user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("parents", @format), {:user_token => user_token}
       end
 
       # Returns an array of data for students, given a specified parent user token.
@@ -165,7 +165,7 @@ module Edmodo
       #
       # => user_token: User token of the parent
       def children user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request :get, resource_uri("children", @format), {:user_token => user_token}
       end
 
       # Fetches user profile information.
