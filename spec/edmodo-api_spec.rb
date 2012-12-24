@@ -189,14 +189,80 @@ describe Edmodo::API::Client do
 
   describe 'POST Requests' do
     before do
-      api_key = "1234567890abcdefghijklmn"
-      @client = Edmodo::API::Client.new(api_key)
+      @client = Edmodo::API::Client.new(@api_key)
+    end
+
+    it 'should get the correct response back from the userPost request' do
+      
+      response = @client.user_post("b020c42d1", "This is my test message", {:user_token => "b020c42d1", :user_token => "693d5c765", :group_id => 379557}, [{:type => "link", :title => "A link", :url => "http://www.edmodo.com"}, {:type => "embed", :title => "An embed with an optional thumbnail url", :thumb_url => "http://images.edmodo.com/images/logos/edmodo_134x43.png"}])
+
+      response.should == {:status => "success"}
+    end
+
+    it 'should get the correct response back from the turnInAssignment request' do
+      
+      response = @client.turn_in_assignment("83a8e614d", 4738052, "Here is my assignment submission", {:type => "link", :title => "A link", :url => "http://www.edmodo.com"})
+
+      response.should == {:status => "success"}
     end
 
     it 'should get the correct hash response from the registerBadge request' do
       response = @client.register_badge("Good Job", "You did a good job", "http://www.edmodo.com/badge_image.png")
       
       response.should == {"badge_id" => 6580}
+    end
+
+    it 'should get the correct hash response from the updateBadge request' do
+      response = @client.update_badge(6580, "Very Good Job", "You did a very good job", "http://www.edmodo.com/new_badge_image.png")
+      
+      response.should == {"status" => "success"}
+    end
+
+    it 'should get the correct hash response from the awardBadge request' do
+      response = @client.award_badge("jd3i1c0pl", 6580)
+      
+      response.should == {"success"=>1, "times_awarded"=>1}
+    end
+
+    it 'should get the correct hash response from the revokeBadge request' do
+      response = @client.revoke_badge("jd3i1c0pl", 6580)
+      
+      response.should == {"success"=>1, "times_awarded"=>0}
+    end
+
+    it 'should get the correct hash response from the newGrade request' do
+      response = @client.new_grade(379557, "Super Project", 10)
+      
+      response.should == {"grade_id"=>3694}
+    end
+
+    it 'should get the correct hash response from the setGrade request' do
+      response = @client.set_grade("jd3i1c0pl", 3694, 3)
+      
+      response.should == {"user_token"=>"83a8e614d", "score"=>"3", "total" => "10"}
+    end
+
+    it 'should get the correct hash response from the newEvent request' do
+
+      recipients = [{:user_token => "b020c42d1"},{:group_id => 379557}]
+      response = @client.new_event("b020c42d1", "Pizza party tomorrow", "2011-12-07", "2011-12-07", recipients)
+      
+      response.should == {"event_id" => 621119}
+    end
+
+    it 'should get the correct hash response from the addToLibrary request' do
+
+      resource = {:type => "link", :title => "A link", :url => "http://www.edmodo.com", :thumb_url => "http://images.edmodo.com/images/logos/edmodo_134x43.png" }
+      response = @client.add_to_library("b020c42d1", true, resource)
+      
+      response.should == {"library_item_id" => "456"}
+    end
+
+    it 'should get the correct hash response from the setNotification request' do
+
+      response = @client.set_notification("b020c42d1", 1)
+      
+      response.should == {"updated_notification_count" => "3"}
     end
 
   end

@@ -190,7 +190,7 @@ module Edmodo
       # => recipients: Array of objects specifying the recipients of the post. These can be either users (specified by a user_token) or groups (specified by a group_id).
       # => attachments (Optional): array of objects specifying links/embed codes to include in the post message.
       def user_post user_token, content, recipients, attachments = nil
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request(:post, resource_uri("userPost"), {:user_token => user_token, :content => content, :recipients => recipients, :attachments => attachments}.delete_if{ |k,v| v.nil? })
       end
 
       # Submits a response to the specified assignment for the given user. The id's for assignments coming due can be retrieved using the assignments_coming_due.
@@ -201,7 +201,7 @@ module Edmodo
       # => content: Text of the submission
       # => attachments (Optional): Array of objects specifying links/embed codes to include in the assignment submission
       def turn_in_assignment user_token, assignment_id, content, attachments = nil
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request(:post, resource_uri("turnInAssignment"), {:user_token => user_token, :assignment_id => assignment_id, :content => content, :attachments => attachments}.delete_if{ |k,v| v.nil? } )
       end
 
       # Registers a badge with Edmodo, returning a badge id that can be used to award a badge that will display on an Edmodo user's profile.
@@ -211,7 +211,7 @@ module Edmodo
       # => description: limit 140 characters
       # => image_url: url to badge image, should be 114x114 pixels. Accepted image types: jpg, gif, png
       def register_badge badge_title, description, image_url 
-        request(:post, resource_uri("registerBadge"), {:badge_title => badge_title, :description => description, :image_url => image_url})
+        request(:post, resource_uri("registerBadge"), {:badge_title => badge_title, :description => description, :image_url => image_url}.delete_if { |k,v| v.nil? })
       end
 
       # Returns an array of user data for all teachers for a student specified by user token.
@@ -222,7 +222,7 @@ module Edmodo
       # => description: limit 140 characters
       # => image_url (Optional): If you wish to replace the image of the badge, specify the url of the new badge image. Otherwise, to keep the old badge image, you do not need to specify this parameter.
       def update_badge badge_id, badge_title, description, image_url = nil
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request(:post, resource_uri("updateBadge"), {:badge_id => badge_id, :badge_title => badge_title, :description => description, :image_url => image_url}. delete_if{ |k,v| v.nil? })
       end
 
       # Awards a badge to a given user.
@@ -231,7 +231,7 @@ module Edmodo
       # => badge_id: Badge ID of the badge being awarded
       # => user_token: User token of the user receiving the badge
       def award_badge user_token, badge_id
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request(:post, resource_uri("awardBadge"), {:user_token => user_token, :badge_id => badge_id})
       end
 
       # Revokes a badge that has been awarded to a given user.
@@ -239,8 +239,8 @@ module Edmodo
       #
       # => badge_id: Badge ID of the badge being revoked
       # => user_token: User token of the user who has been awarded the badge and whom it will be revoked from.
-      def revoke_badge badge_id, user_token
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+      def revoke_badge user_token, badge_id
+        request(:post, resource_uri("revokeBadge"), {:user_token => user_token, :badge_id => badge_id})
       end
 
       # Add a new grade to the gradebook for a given group.
@@ -250,7 +250,7 @@ module Edmodo
       # => title: The title for this grade
       # => total: The total grade possible for this grade
       def new_grade group_id, title, total
-        
+        request(:post, resource_uri("newGrade"), {:group_id => group_id, :title => title, :total => total})
       end
 
       # Set a score for a grade given a specific user token.
@@ -259,8 +259,8 @@ module Edmodo
       # => grade_id: The grade the score is being set upon
       # => user_token: The user_token of the user to set the grade for
       # => score: The score to set for this grade
-      def set_grade grade_id, user_token, score
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+      def set_grade user_token, grade_id, score
+        request(:post, resource_uri("setGrade"), {:user_token => user_token, :grade_id => grade_id, :score => score})
       end
 
       # Set a new event on behalf of a user to specified recipients. Events will be seen on the calendar as well as notifications as the event approaches.
@@ -272,7 +272,7 @@ module Edmodo
       # => end_date: The end date of the event (specified in the format YYYY-MM-DD). If this is a single day event, the end date should simply be the same as the start date.
       # => recipients: array of objects specifying the recipients of the post. These can be either users (specified by a user_token) or groups (specified by a group_id).
       def new_event user_token, description, start_date, end_date, recipients
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        request(:post, resource_uri("newEvent"), {:user_token => user_token, :description => description, :start_date => start_date, :end_date => end_date, :recipients => recipients})
       end
 
       # Adds a resource (url or embed code) to a user's Library
@@ -282,7 +282,9 @@ module Edmodo
       # => publisher_owned:  If you want the resources's author to be the publisher account associated with the app, set this parameter. Set to '1' if you want the resource to be publisher owned
       # => resource: Object specifying the link or embed code to add to the user's library.
       def add_to_library user_token, publisher_owned, resource
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+        publisher_owned_int = publisher_owned ? 1 : 0
+
+        request(:post, resource_uri("addToLibrary"), {:user_token => user_token, :publisher_owned => publisher_owned_int, :resource => resource })
       end
 
       # Sets a specified count of app notifications for the user.
@@ -290,8 +292,8 @@ module Edmodo
       #
       # => user_token: The user_token of the user that will have the resource added to her/his library.
       # => notification_count: The number to add to the user's notification count for the app
-      def set_notification user_token, notification
-        raise EdmodoApiError.new("Edmodo API Error: Method not implemented")
+      def set_notification user_token, notification_count
+        request(:post, resource_uri("setNotification"), {:user_token => user_token, :notification_count => notification_count})
       end
 
       private
