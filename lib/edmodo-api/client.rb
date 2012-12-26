@@ -30,6 +30,9 @@ module Edmodo
 
         raise_init_errors
 
+        # Adding the api key as a default parameter to all requests
+        self.class.default_params :api_key => @api_key
+
         @endpoint = Edmodo::API::Config.endpoints[@mode]
 
       end
@@ -317,7 +320,7 @@ module Edmodo
 
         format = ".#{format}" if format
 
-        "#{@endpoint}/#{resource}#{format}?api_key=#{api_key}"
+        "#{@endpoint}/#{resource}#{format}"
       end
 
     end
