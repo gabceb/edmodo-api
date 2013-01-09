@@ -43,11 +43,10 @@ You're welcome to fork this project and send pull requests. Just remember to inc
 TO DO
 ---------
 
-- Finish implementation of all the methods
+- Find a way to pass a string as query params to a POST requests when using HTTParty to finish implementing the methods that are not supported yet
 - Thinking about adding all the requests name into an array and overriding the Ruby method_missing method to DRY up the client code
-- Adding tests for every method
 
-Edmodo methods that will be supported
+Supported Edmodo API methods
 ---------
 
 - launchRequests
@@ -67,8 +66,6 @@ Edmodo methods that will be supported
 - parents
 - children
 - profiles
-- userPost
-- turnInAssignment
 - registerBadge
 - updateBadge
 - awardBadge
@@ -78,4 +75,12 @@ Edmodo methods that will be supported
 - newEvent
 - addToLibrary
 - setNotification
+
+Not supported Edmodo API Method (yet)
+---------
+
+- UserPost
+- turnInAssignment
+- NewEvent
+- AddToLibrary
 

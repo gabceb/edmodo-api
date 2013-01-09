@@ -194,7 +194,7 @@ describe Edmodo::API::Client do
 
     it 'should get the correct response back from the userPost request' do
       
-      pending("This call has to be fixed")
+      pending("This API method has to be fixed because HTTParty only supports Hash on POST requests queries")
 
       response = @client.user_post("b020c42d1", "This is my test message", {:user_token => "b020c42d1", :user_token => "693d5c765", :group_id => 379557}, [{:type => "link", :title => "A link", :url => "http://www.edmodo.com"}, {:type => "embed", :title => "An embed with an optional thumbnail url", :thumb_url => "http://images.edmodo.com/images/logos/edmodo_134x43.png"}])
 
@@ -203,7 +203,7 @@ describe Edmodo::API::Client do
 
     it 'should get the correct response back from the turnInAssignment request' do
       
-      pending("This call has to be fixed")
+      pending("This API method has to be fixed because HTTParty only supports Hash on POST requests queries")
 
       response = @client.turn_in_assignment("83a8e614d", 4738052, "Here is my assignment submission", {:type => "link", :title => "A link", :url => "http://www.edmodo.com"})
 
@@ -248,7 +248,7 @@ describe Edmodo::API::Client do
 
     it 'should get the correct hash response from the newEvent request' do
 
-      pending("This call has to be fixed")
+      pending("This API method has to be fixed because HTTParty only supports Hash on POST requests queries")
 
       recipients = [{:user_token => "b020c42d1"},{:group_id => 379557}]
       response = @client.new_event("b020c42d1", "Pizza party tomorrow", "2011-12-07", "2011-12-07", recipients)
@@ -258,7 +258,7 @@ describe Edmodo::API::Client do
 
     it 'should get the correct hash response from the addToLibrary request' do
 
-      pending("This call has to be fixed")
+      pending("This API method has to be fixed because HTTParty only supports Hash on POST requests queries")
 
       resource = {:type => "link", :title => "A link", :url => "http://www.edmodo.com", :thumb_url => "http://images.edmodo.com/images/logos/edmodo_134x43.png" }
       response = @client.add_to_library("b020c42d1", true, resource)
