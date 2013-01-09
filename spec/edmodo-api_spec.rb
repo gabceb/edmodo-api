@@ -59,6 +59,16 @@ describe Edmodo::API::Client do
     end
   end
 
+  describe 'GET Requests in Production' do
+    it 'should get the correct hash back from the launchRequest request when environment is production' do
+      client = Edmodo::API::Client.new(@api_key, :mode => :production)
+
+      response = client.launch_requests("5c18c7")
+
+      response.should == {"user_type"=>"TEACHER", "user_token"=>"b020c42d1", "first_name"=>"Bob", "last_name"=>"Smith", "avatar_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar.png", "thumb_url"=>"http://edmodoimages.s3.amazonaws.com/default_avatar_t.png", "groups"=>[{"group_id"=>379557, "is_owner"=>1}, {"group_id"=>379562, "is_owner"=>1}]}
+    end
+  end
+
   describe 'GET Requests' do
     before do
       @client = Edmodo::API::Client.new(@api_key)

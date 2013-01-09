@@ -3,6 +3,29 @@ uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/launchRequests.json?api_key=#{
 
 FakeWeb.register_uri(:get, uri, :body => '{"error":{"code":3000,"message":"Unauthorized API request"}}', :status => ["401", "Authorization Required"])
 
+# launchRequest request uri on production
+uri = "#{Edmodo::API::Config.endpoints[:production]}/launchRequests.json?api_key=#{@api_key}&launch_key=5c18c7"
+
+FakeWeb.register_uri(:get, uri,
+					 :body => '	{
+								    "user_type":"TEACHER",
+								    "user_token":"b020c42d1",
+								    "first_name":"Bob",
+								    "last_name":"Smith",
+								    "avatar_url":"http://edmodoimages.s3.amazonaws.com/default_avatar.png",
+								    "thumb_url":"http://edmodoimages.s3.amazonaws.com/default_avatar_t.png",
+								    "groups":[
+								        {
+								            "group_id":379557,
+								            "is_owner":1
+								        },
+								        {
+								            "group_id":379562,
+								            "is_owner":1
+								        }
+								    ]
+								}')
+
 # launchRequest request uri
 uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/launchRequests.json?api_key=#{@api_key}&launch_key=5c18c7"
 
