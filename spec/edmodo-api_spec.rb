@@ -203,8 +203,11 @@ describe Edmodo::API::Client do
     end
 
     it 'should get the correct response back from the userPost request' do
-      
-      response = @client.user_post("b020c42d1", "This is my test message", [{:user_token => "b020c42d1"}, {:user_token => "693d5c765"}, {:group_id => 379557}], [{:type => "link", :title => "A link", :url => "http://www.edmodo.com"}, {:type => "embed", :title => "An embed with an optional thumbnail url", :thumb_url => "http://images.edmodo.com/images/logos/edmodo_134x43.png"}])
+      users = ["b020c42d1", "693d5c765"]
+
+      groups = 379557
+
+      response = @client.user_post("b020c42d1", "This is my test message", users, groups, [{:type => "link", :title => "A link", :url => "http://www.edmodo.com"}, {:type => "embed", :title => "An embed with an optional thumbnail url", :thumb_url => "http://images.edmodo.com/images/logos/edmodo_134x43.png"}])
 
       response.should == {"status" => "success"}
     end

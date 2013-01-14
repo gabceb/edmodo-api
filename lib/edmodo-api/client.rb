@@ -190,9 +190,13 @@ module Edmodo
       #
       # => user_token: The user token for the user sending the post.
       # => content: The text of the message.
-      # => recipients: Array of objects specifying the recipients of the post. These can be either users (specified by a user_token) or groups (specified by a group_id).
+      # => user_recipients: array of user_tokens that will receive the event.
+      # => group_recipients: array of group_ids that will receive the event.
       # => attachments (Optional): array of objects specifying links/embed codes to include in the post message.
-      def user_post user_token, content, recipients, attachments = nil
+      def user_post user_token, content, user_recipients, group_recipients, attachments = nil
+
+        recipients = generate_user_groups_array user_recipients, group_recipients
+
         request(:post, resource_uri("userPost"), {:user_token => user_token, :content => content, :recipients => recipients, :attachments => attachments}.delete_if{ |k,v| v.nil? })
       end
 
@@ -279,15 +283,7 @@ module Edmodo
 
         raise EdmodoApiError.new("Invalid object type for start or end date") unless start_date.is_a?(Date) && end_date.is_a?(Date)
 
-        user_recipients = Array(user_recipients)
-
-        user_array = user_recipients.map{|token| {:user_token => token}} 
-
-        group_recipients = Array(group_recipients)
-
-        group_array = group_recipients.map{|id| {:group_id => id}}
-
-        recipients = user_array.zip(group_array).flatten
+        recipients = generate_user_groups_array user_recipients, group_recipients
 
         request(:post, resource_uri("newEvent"), {:user_token => user_token, :description => description, :start_date => start_date.to_s, :end_date => end_date.to_s, :recipients => recipients})
       end
@@ -320,6 +316,23 @@ module Edmodo
           :mode => :sandbox,
           :format => "json"
         }
+      end
+
+      # Generates an array of hashes from an array of user ids and group ids
+      # Params:
+      #
+      # => user: array of user_tokens.
+      # => groups: array of group_ids.
+      def generate_user_groups_array users, groups
+        users = Array(users)
+
+        user_array = users.map{|token| {:user_token => token}} 
+
+        groups = Array(groups)
+
+        group_array = groups.map{|id| {:group_id => id}}
+
+        (user_array | group_array).flatten
       end
 
       # Checks for all required variables to be set when an instance is created and throws errors if they haven't
