@@ -254,9 +254,11 @@ describe Edmodo::API::Client do
 
     it 'should get the correct hash response from the newEvent request' do
 
-      recipients = [{:user_token => "b020c42d1"},{:group_id => 379557}]
+      users = "b020c42d1"
 
-      response = @client.new_event("b020c42d1", "Pizza party tomorrow", "2011-12-07", "2011-12-07", recipients)
+      groups = 379557
+
+      response = @client.new_event("b020c42d1", "Pizza party tomorrow", Date.today, Date.today, users, groups)
       
       response.should == {"event_id" => 621119}
     end

@@ -271,11 +271,25 @@ module Edmodo
       #
       # => user_token: The user_token of the user to set the event on behalf for.
       # => description: The description of the event.
-      # => start_date: The start date of the event (specified in the format YYYY-MM-DD).
-      # => end_date: The end date of the event (specified in the format YYYY-MM-DD). If this is a single day event, the end date should simply be the same as the start date.
-      # => recipients: array of objects specifying the recipients of the post. These can be either users (specified by a user_token) or groups (specified by a group_id).
-      def new_event user_token, description, start_date, end_date, recipients
-        request(:post, resource_uri("newEvent"), {:user_token => user_token, :description => description, :start_date => start_date, :end_date => end_date, :recipients => recipients})
+      # => start_date: The start date of the event.
+      # => end_date: The end date of the event. If this is a single day event, the end date should simply be the same as the start date.
+      # => user_recipients: array of user_tokens that will receive the event.
+      # => groups_recipients: array of group_ids that will receive the event.
+      def new_event user_token, description, start_date, end_date, user_recipients, group_recipients
+
+        raise EdmodoApiError.new("Invalid object type for start or end date") unless start_date.is_a?(Date) && end_date.is_a?(Date)
+
+        user_recipients = Array(user_recipients)
+
+        user_array = user_recipients.map{|token| {:user_token => token}} 
+
+        group_recipients = Array(group_recipients)
+
+        group_array = group_recipients.map{|id| {:group_id => id}}
+
+        recipients = user_array.zip(group_array).flatten
+
+        request(:post, resource_uri("newEvent"), {:user_token => user_token, :description => description, :start_date => start_date.to_s, :end_date => end_date.to_s, :recipients => recipients})
       end
 
       # Adds a resource (url or embed code) to a user's Library

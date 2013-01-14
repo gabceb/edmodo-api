@@ -41,7 +41,7 @@ uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/setGrade?api_key=#{@api_key}&g
 FakeWeb.register_uri(:post, uri, :body => '{"user_token":"83a8e614d", "score":"3", "total":"10"}')
 
 # newEvent request uri
-uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/newEvent?api_key=#{@api_key}&user_token=b020c42d1&description=Pizza%20party%20tomorrow&start_date=2011-12-07&end_date=2011-12-07&recipients=%5B%7B%22user_token%22%3A%22b020c42d1%22%7D%2C%7B%22group_id%22%3A379557%7D%5D"
+uri = "#{Edmodo::API::Config.endpoints[:sandbox]}/newEvent?api_key=#{@api_key}&user_token=b020c42d1&description=Pizza%20party%20tomorrow&start_date=#{Date.today.to_s}&end_date=#{Date.today.to_s}&recipients=%5B%7B%22user_token%22%3A%22b020c42d1%22%7D%2C%7B%22group_id%22%3A379557%7D%5D"
 
 FakeWeb.register_uri(:post, uri, :body => '{"event_id":621119}')
 
