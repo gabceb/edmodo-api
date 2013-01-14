@@ -2,5 +2,6 @@
 
 require 'edmodo-api/version'
 require 'edmodo-api/config'
+require 'edmodo-api/normalizer'
 require 'edmodo-api/request'
 require 'edmodo-api/client'

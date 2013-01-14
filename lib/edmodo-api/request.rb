@@ -14,7 +14,7 @@ module Edmodo
           when :get
             self.class.get(uri, query: query )
           when :post
-            self.class.post(uri, query: query)
+            self.class.post(uri, query: query, :query_string_normalizer => Edmodo::API::Normalizer::EDMODO_JSON_NORMALIZER)
           else
             raise EdmodoApiError.new "EdmodoAPI Error: Request Method error."
           end
