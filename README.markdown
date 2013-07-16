@@ -23,7 +23,7 @@ You can set the environment EDMODO_API_KEY and the gem will use it if you pass n
 Examples:
 ----------
 	client = Edmodo::API::Client.new(api_key , :mode => :production)
-	client.launchRequests "5c18c7" 
+	client.launch_requests "5c18c7" 
 
 Error Handling:
 --------
